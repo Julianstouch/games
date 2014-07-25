@@ -1,0 +1,59 @@
+Features : 
+- Farm Haunted Port 2, and was farming Sunken ship 1.
+Why HP2 : max damage is 60, only in mid. Card +30 shield with item +30 shield makes it. Add any damager for regen.
+Why SS1 : no (or nearly none) direct damage. Any card with 70hp + cautious item would do it. Add a healer. 
+- Plays card according orders and restrictions
+- Manage sacrifice, sacrifice, sacrifice cost, card play cost, and card color
+- While running, if you open the game from another computer, the bot stop, and restart 30 min later.
+It is made to take manual control for daily spin and duels, then it restart botting.
+- When restarting, manage surrendering to restart a clean round.
+
+My Current set :
+For old SS1 : Kronan, Granger and Squid. Good for leveling, Granger to sacrifice.
+Items : Dryadstaff and PlanetSmasher.
+
+For actual HP2 : Headless, Squid and Granger. Squid for sacrifice.
+Items : TowerShield, Herald bow, and Toxic blade.
+
+Alternative for HP2 : 2 Red Dragon (at least level 4), Snarer. Just a Protector as item.
+
+How to set up your deck :
+In the file ManageFight, method lancerCombat
+Define your monster :
+- Playable (getMonsterPlay) , Sacrifice (getMonsterSacr), or Both (play tested first)
+Then : name, color, cost to play, play position OR sacrifice cristal gain.
+
+Define your item same way, except it's getItemPlay and so.
+
+Define condition : 
+- card1.getPlayCondition.add(card2) : the card2 must have been played for Card to be played.
+- card1.getSacrCondition.add(card2) : if the card 2 is sacrifice, then card 1 can't be sacrified.
+
+Define checking / playing order :
+cardAction1.setNext(cardAction2).setNext(fin)
+
+! Attention ! 
+There is a difference between Cards defined, and CardAction for the chain.
+CARD : Card heal = Card.getMonsterSacr("Squid", tGreen , 3, 3);
+CARD ACTION : IAction debut = new CardAction(heal, this);
+
+And always have :
+IAction fin = new EndOfCard(null, this);
+And  .setNext(fin);   at the end of the chain.
+
+
+
+IF you want to farm another spot, define new coords in MoveMap file.
+Actual :
+2 zone on map
+    private final Dimension SUNKEN = new Dimension(372, 406);
+    private final Dimension PORT = new Dimension(402, 301);
+1 area in zone (sunken 1 and haunted 2 are at the same position)
+    private final Dimension SUNKEN_A1 = new Dimension(272, 96);
+
+If you add yours 
+    private final Dimension YOURS = new Dimension(xxx, yyy);
+    private final Dimension YOURS_A? = new Dimension(xxx, yyy);
+And in code, change :
+mMove(PORT);        to  mMove(YOURS);
+mMove(SUNKEN_A1);   to  mMove(YOURS_A?); 
